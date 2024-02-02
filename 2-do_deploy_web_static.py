@@ -1,43 +1,31 @@
 #!/usr/bin/python3
-# the comment i have to write to pass
-import os.path
-from fabric.api import env
-from fabric.api import put
-from fabric.api import run
+The Comment
+import os
+from fabric.api import run, put, env
 
-env.hosts = ["104.196.168.90", "35.196.46.172"]
+env.hosts = ['34.204.60.80', '54.160.72.183']
+env.user = "ubuntu"
 
 
 def do_deploy(archive_path):
-    """the comment i have to write to pass
-    """
-    if os.path.isfile(archive_path) is False:
+    """Create a tar gzipped archive of the directory web_static."""
+    if os.path.exists(archive_path) is False:
         return False
-    file = archive_path.split("/")[-1]
-    name = file.split(".")[0]
-
-    if put(archive_path, "/tmp/{}".format(file)).failed is True:
-        return False
-    if run("rm -rf /data/web_static/releases/{}/".
-           format(name)).failed is True:
-        return False
-    if run("mkdir -p /data/web_static/releases/{}/".
-           format(name)).failed is True:
-        return False
-    if run("tar -xzf /tmp/{} -C /data/web_static/releases/{}/".
-           format(file, name)).failed is True:
-        return False
-    if run("rm /tmp/{}".format(file)).failed is True:
-        return False
-    if run("mv /data/web_static/releases/{}/web_static/* "
-           "/data/web_static/releases/{}/".format(name, name)).failed is True:
-        return False
-    if run("rm -rf /data/web_static/releases/{}/web_static".
-           format(name)).failed is True:
-        return False
-    if run("rm -rf /data/web_static/current").failed is True:
-        return False
-    if run("ln -s /data/web_static/releases/{}/ /data/web_static/current".
-           format(name)).failed is True:
-        return False
-    return True
+    else:
+        try:
+            put(archive_path, "/tmp/")
+            file_name = archive_path.split("/")[1]
+            file_name2 = file_name.split(".")[0]
+            final_name = "/data/web_static/releases/" + file_name2 + "/"
+            run("mkdir -p " + final_name)
+            run("tar -xzf /tmp/" + file_name + " -C " + final_name)
+            run("rm /tmp/" + file_name)
+            run("mv " + final_name + "web_static/* " + final_name)
+            run("rm -rf " + final_name + "web_static")
+            run("rm -rf /data/web_static/current")
+            run("ln -s " + final_name + " /data/web_static/current")
+            print("New version deployed!")
+            return True
+        except Exception as e:
+            print("Error:", e)
+            return False

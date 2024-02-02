@@ -1,12 +1,12 @@
 #!/usr/bin/python3
-# the comment i have to write to pass 
+#  The Comment
 import os.path
 from datetime import datetime
 from fabric.api import local
 
 
 def do_pack():
-    """the comment i have to write to pass"""
+    """Create a tar gzipped archive of the directory web_static."""
     dt = datetime.utcnow()
     file = "versions/web_static_{}{}{}{}{}{}.tgz".format(dt.year,
                                                          dt.month,
