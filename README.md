@@ -1,142 +1,56 @@
-<center> <h1>HBNB - The Console</h1> </center>
+# 0x03. AirBnB clone - Deploy static
 
-This repository contains the initial stage of a student project to build a clone of the AirBnB website. This stage implements a backend interface, or console, to manage program data. Console commands allow the user to create, update, and destroy objects, as well as manage file storage. Using a system of JSON serialization/deserialization, storage is persistent between sessions.
+This project involves deploying the web_static work of an AirBnB clone using Fabric for Python3. The primary objectives of this project are to familiarize oneself with CI/CD, the AirBnB clone concept, and basic concepts related to deployment and Nginx configuration.
 
----
+## Concepts
+For this project, understanding the following concepts is essential:
+- CI/CD
+- AirBnB clone
 
-<center><h3>Repository Contents by Project Task</h3> </center>
+## Background Context
+In this initial deployment project, the objective is to deploy the web_static work. Fabric, a Python library and command-line tool, will be used for streamlining SSH use for deployment or system administration tasks.
 
-| Tasks | Files | Description |
-| ----- | ----- | ------ |
-| 0: Authors/README File | [AUTHORS](AUTHORS) | Project authors |
-| 1: Pep8 | N/A | All code is pep8 compliant|
-| 2: Unit Testing | [/tests](tests) | All class-defining modules are unittested |
-| 3. Make BaseModel | [/models/base_model.py](models/base_model.py) | Defines a parent class to be inherited by all model classes|
-| 4. Update BaseModel w/ kwargs | [/models/base_model.py](models/base_model.py) | Add functionality to recreate an instance of a class from a dictionary representation|
-| 5. Create FileStorage class | [/models/engine/file_storage.py](models/engine/file_storage.py) [/models/_ _init_ _.py](models/__init__.py) [/models/base_model.py](models/base_model.py) | Defines a class to manage persistent file storage system|
-| 6. Console 0.0.1 | [console.py](console.py) | Add basic functionality to console program, allowing it to quit, handle empty lines and ^D |
-| 7. Console 0.1 | [console.py](console.py) | Update the console with methods allowing the user to create, destroy, show, and update stored data |
-| 8. Create User class | [console.py](console.py) [/models/engine/file_storage.py](models/engine/file_storage.py) [/models/user.py](models/user.py) | Dynamically implements a user class |
-| 9. More Classes | [/models/user.py](models/user.py) [/models/place.py](models/place.py) [/models/city.py](models/city.py) [/models/amenity.py](models/amenity.py) [/models/state.py](models/state.py) [/models/review.py](models/review.py) | Dynamically implements more classes |
-| 10. Console 1.0 | [console.py](console.py) [/models/engine/file_storage.py](models/engine/file_storage.py) | Update the console and file storage system to work dynamically with all  classes update file storage |
-<br>
-<br>
-<center> <h2>General Use</h2> </center>
+Before starting, fork the repository `AirBnB_clone_v2` from your partner if you don’t have it.
 
-1. First clone this repository.
+## Resources
+Read or watch the following resources for better understanding:
+- [How to use Fabric](https://www.fabfile.org/)
+- [Fabric and command line options](https://docs.fabfile.org/en/2.6/usage/fab.html)
+- [CI/CD concept page](https://en.wikipedia.org/wiki/CI/CD)
+- [Nginx configuration for beginners](https://nginx.org/en/docs/beginners_guide.html)
+- [Difference between root and alias on NGINX](https://www.nginx.com/resources/wiki/start/topics/examples/alias/)
+- [Fabric for Python 3](https://docs.fabfile.org/en/2.6/getting-started.html)
 
-3. Once the repository is cloned locate the "console.py" file and run it as follows:
-```
-/AirBnB_clone$ ./console.py
-```
-4. When this command is run the following prompt should appear:
-```
-(hbnb)
-```
-5. This prompt designates you are in the "HBnB" console. There are a variety of commands available within the console program.
+## Learning Objectives
+Upon completion of this project, you are expected to be able to explain to anyone, without the help of Google:
+- What is Fabric
+- How to deploy code to a server easily using Fabric
+- What is a tgz archive
+- How to execute Fabric commands locally and remotely
+- How to transfer files with Fabric
+- Nginx configuration management
+- The difference between root and alias in an Nginx configuration
 
-##### Commands
-    * create - Creates an instance based on given class
+## Copyright - Plagiarism
+Remember, you are expected to come up with solutions for the tasks yourself to meet the specified learning objectives. No copying or publishing of the project content is allowed.
 
-    * destroy - Destroys an object based on class and UUID
+## Requirements
+### Python Scripts
+- Allowed editors: vi, vim, emacs
+- Files will be interpreted/compiled on Ubuntu 20.04 LTS using Python3 (version 3.4.0)
+- All files should end with a new line
+- The first line of all files should be exactly `#!/usr/bin/python3`
+- PEP 8 style should be followed (version 1.7.*)
+- The Fabric file must work with Fabric 3 version 1.14.post1
+- All files must be executable
 
-    * show - Shows an object based on class and UUID
+### Bash Scripts
+- Allowed editors: vi, vim, emacs
+- Files will be interpreted on Ubuntu 20.04 LTS
+- All files should end with a new line
+- All Bash scripts must be executable
+- Bash scripts must pass Shellcheck (version 0.3.3-1~ubuntu20.04.1 via apt-get) without any errors
+- The first line of all Bash scripts should be exactly `#!/usr/bin/env bash`
+- A README.md file at the root of the folder of the project is mandatory
 
-    * all - Shows all objects the program has access to, or all objects of a given class
-
-    * update - Updates existing attributes an object based on class name and UUID
-
-    * quit - Exits the program (EOF will as well)
-
-
-##### Alternative Syntax
-Users are able to issue a number of console command using an alternative syntax:
-
-	Usage: <class_name>.<command>([<id>[name_arg value_arg]|[kwargs]])
-Advanced syntax is implemented for the following commands: 
-
-    * all - Shows all objects the program has access to, or all objects of a given class
-
-	* count - Return number of object instances by class
-
-    * show - Shows an object based on class and UUID
-
-	* destroy - Destroys an object based on class and UUID
-
-    * update - Updates existing attributes an object based on class name and UUID
-
-<br>
-<br>
-<center> <h2>Examples</h2> </center>
-<h3>Primary Command Syntax</h3>
-
-###### Example 0: Create an object
-Usage: create <class_name>
-```
-(hbnb) create BaseModel
-```
-```
-(hbnb) create BaseModel
-3aa5babc-efb6-4041-bfe9-3cc9727588f8
-(hbnb)                   
-```
-###### Example 1: Show an object
-Usage: show <class_name> <_id>
-
-```
-(hbnb) show BaseModel 3aa5babc-efb6-4041-bfe9-3cc9727588f8
-[BaseModel] (3aa5babc-efb6-4041-bfe9-3cc9727588f8) {'id': '3aa5babc-efb6-4041-bfe9-3cc9727588f8', 'created_at': datetime.datetime(2020, 2, 18, 14, 21, 12, 96959), 
-'updated_at': datetime.datetime(2020, 2, 18, 14, 21, 12, 96971)}
-(hbnb)  
-```
-###### Example 2: Destroy an object
-Usage: destroy <class_name> <_id>
-```
-(hbnb) destroy BaseModel 3aa5babc-efb6-4041-bfe9-3cc9727588f8
-(hbnb) show BaseModel 3aa5babc-efb6-4041-bfe9-3cc9727588f8
-** no instance found **
-(hbnb)   
-```
-###### Example 3: Update an object
-Usage: update <class_name> <_id>
-```
-(hbnb) update BaseModel b405fc64-9724-498f-b405-e4071c3d857f first_name "person"
-(hbnb) show BaseModel b405fc64-9724-498f-b405-e4071c3d857f
-[BaseModel] (b405fc64-9724-498f-b405-e4071c3d857f) {'id': 'b405fc64-9724-498f-b405-e4071c3d857f', 'created_at': datetime.datetime(2020, 2, 18, 14, 33, 45, 729889), 
-'updated_at': datetime.datetime(2020, 2, 18, 14, 33, 45, 729907), 'first_name': 'person'}
-(hbnb)
-```
-<h3>Alternative Syntax</h3>
-
-###### Example 0: Show all User objects
-Usage: <class_name>.all()
-```
-(hbnb) User.all()
-["[User] (99f45908-1d17-46d1-9dd2-b7571128115b) {'updated_at': datetime.datetime(2020, 2, 19, 21, 47, 34, 92071), 'id': '99f45908-1d17-46d1-9dd2-b7571128115b', 'created_at': datetime.datetime(2020, 2, 19, 21, 47, 34, 92056)}", "[User] (98bea5de-9cb0-4d78-8a9d-c4de03521c30) {'updated_at': datetime.datetime(2020, 2, 19, 21, 47, 29, 134362), 'id': '98bea5de-9cb0-4d78-8a9d-c4de03521c30', 'created_at': datetime.datetime(2020, 2, 19, 21, 47, 29, 134343)}"]
-```
-
-###### Example 1: Destroy a User
-Usage: <class_name>.destroy(<_id>)
-```
-(hbnb) User.destroy("99f45908-1d17-46d1-9dd2-b7571128115b")
-(hbnb)
-(hbnb) User.all()
-(hbnb) ["[User] (98bea5de-9cb0-4d78-8a9d-c4de03521c30) {'updated_at': datetime.datetime(2020, 2, 19, 21, 47, 29, 134362), 'id': '98bea5de-9cb0-4d78-8a9d-c4de03521c30', 'created_at': datetime.datetime(2020, 2, 19, 21, 47, 29, 134343)}"]
-```
-###### Example 2: Update User (by attribute)
-Usage: <class_name>.update(<_id>, <attribute_name>, <attribute_value>)
-```
-(hbnb) User.update("98bea5de-9cb0-4d78-8a9d-c4de03521c30", name "Todd the Toad")
-(hbnb)
-(hbnb) User.all()
-(hbnb) ["[User] (98bea5de-9cb0-4d78-8a9d-c4de03521c30) {'updated_at': datetime.datetime(2020, 2, 19, 21, 47, 29, 134362), 'id': '98bea5de-9cb0-4d78-8a9d-c4de03521c30', 'name': 'Todd the Toad', 'created_at': datetime.datetime(2020, 2, 19, 21, 47, 29, 134343)}"]
-```
-###### Example 3: Update User (by dictionary)
-Usage: <class_name>.update(<_id>, <dictionary>)
-```
-(hbnb) User.update("98bea5de-9cb0-4d78-8a9d-c4de03521c30", {'name': 'Fred the Frog', 'age': 9})
-(hbnb)
-(hbnb) User.all()
-(hbnb) ["[User] (98bea5de-9cb0-4d78-8a9d-c4de03521c30) {'updated_at': datetime.datetime(2020, 2, 19, 21, 47, 29, 134362), 'name': 'Fred the Frog', 'age': 9, 'id': '98bea5de-9cb0-4d78-8a9d-c4de03521c30', 'created_at': datetime.datetime(2020, 2, 19, 21, 47, 29, 134343)}"]
-```
-<br>
+### Install Fabric for Python 3 - version 1.14.post1

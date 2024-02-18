@@ -1,15 +1,18 @@
 #!/usr/bin/python3
-"""The Comment I have to write"""
-from models.base_model import BaseModel, Base
-from sqlalchemy.orm import relationship
-from sqlalchemy import Column, String
-from models.place import place_amenity
+""" """
+from tests.test_models.test_base_model import test_basemodel
+from models.amenity import Amenity
 
-class Amenity(BaseModel, Base):
-    """The Comment I have to write
-    The Comment:
-        The Comment I have to write
-    """
-    __tablename__ = "amenities"
-    name = Column(String(128), nullable=False)
-    place_amenities = relationship("Place", secondary=place_amenity)
+class test_Amenity(test_basemodel):
+    """ """
+
+    def __init__(self, *args, **kwargs):
+        """ """
+        super().__init__(*args, **kwargs)
+        self.name = "Amenity"
+        self.value = Amenity
+
+    def test_name2(self):
+        """ """
+        new = self.value()
+        self.assertEqual(type(new.name), str)

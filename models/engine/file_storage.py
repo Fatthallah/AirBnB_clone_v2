@@ -1,69 +1,39 @@
 #!/usr/bin/python3
-"""The Comment I have to write"""
+""" FileStorage Module for HBNB project """
 import json
-from models.base_model import BaseModel
-from models.user import User
-from models.state import State
-from models.city import City
-from models.amenity import Amenity
-from models.place import Place
-from models.review import Review
-import shlex
 
 class FileStorage:
-    """The Comment I have to write
-    The Comment I have to write
-    The Comment:
-        The Comment I have to write
-        The Comment I have to write
-    """
     __file_path = "file.json"
     __objects = {}
-    def all(self, cls=None):
-        """The Comment I have to write
-        The Comment:
-            The Comment I have to write
-        """
-        dic = {}
-        if cls:
-            dictionary = self.__objects
-            for key in dictionary:
-                partition = key.replace('.', ' ')
-                partition = shlex.split(partition)
-                if (partition[0] == cls.__name__):
-                    dic[key] = self.__objects[key]
-            return (dic)
-        else:
-            return self.__objects
-    def new(self, obj):
-        """The Comment I have to write
-       The Comment:
-            The Comment I have to write
-        """
+
+    def delete(self, obj=None):
+        """Delete obj from __objects if it's inside"""
         if obj:
-            key = "{}.{}".format(type(obj).__name__, obj.id)
-            self.__objects[key] = obj
+            key = "{}.{}".format(obj.__class__.__name__, obj.id)
+            if key in self.__objects:
+                del self.__objects[key]
+            self.save()
+
+    def all(self, cls=None):
+        """Return list of objects of one type of class"""
+        if cls:
+            return [obj for obj in self.__objects.values() if isinstance(obj, cls)]
+        return list(self.__objects.values())
+
     def save(self):
-        """The Comment I have to write"""
-        my_dict = {}
-        for key, value in self.__objects.items():
-            my_dict[key] = value.to_dict()
-        with open(self.__file_path, 'w', encoding="UTF-8") as f:
-            json.dump(my_dict, f)
+        """Serialize __objects to the JSON file (path: __file_path)"""
+        serialized_objs = {key: obj.to_dict() for key, obj in self.__objects.items()}
+        with open(self.__file_path, 'w') as file:
+            json.dump(serialized_objs, file)
+
     def reload(self):
-        """The Comment I have to write"""
+        """Deserialize the JSON file to __objects"""
         try:
-            with open(self.__file_path, 'r', encoding="UTF-8") as f:
-                for key, value in (json.load(f)).items():
-                    value = eval(value["__class__"])(**value)
-                    self.__objects[key] = value
+            with open(self.__file_path, 'r') as file:
+                data = json.load(file)
+                for key, value in data.items():
+                    cls_name = value['__class__']
+                    cls = models.classes.get(cls_name)
+                    self.__objects[key] = cls(**value)
         except FileNotFoundError:
             pass
-    def delete(self, obj=None):
-        """The Comment I have to write"""
-        if obj:
-            key = "{}.{}".format(type(obj).__name__, obj.id)
-            del self.__objects[key]
-    def close(self):
-        """The Comment I have to write"""
-        self.reload()

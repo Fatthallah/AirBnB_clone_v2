@@ -1,69 +1,69 @@
 #!/usr/bin/python3
-"""The Comment I have to write"""
-from sqlalchemy.ext.declarative import declarative_base
-from models.base_model import BaseModel, Base
-from sqlalchemy import Column, Table, String, Integer, Float, ForeignKey
-from sqlalchemy.orm import relationship
-from os import getenv
-import models
+""" """
+from tests.test_models.test_base_model import test_basemodel
+from models.place import Place
 
-place_amenity = Table("place_amenity", Base.metadata,
-                      Column("place_id", String(60),
-                             ForeignKey("places.id"),
-                             primary_key=True,
-                             nullable=False),
-                      Column("amenity_id", String(60),
-                             ForeignKey("amenities.id"),
-                             primary_key=True,
-                             nullable=False))
-class Place(BaseModel, Base):
-    """The Comment I have to write
-    The Comment:
-        The Comment I have to write
-        The Comment I have to write
-        The Comment I have to write
-        The Comment I have to write
-    """
-    __tablename__ = "places"
-    city_id = Column(String(60), ForeignKey("cities.id"), nullable=False)
-    user_id = Column(String(60), ForeignKey("users.id"), nullable=False)
-    name = Column(String(128), nullable=False)
-    description = Column(String(1024))
-    number_rooms = Column(Integer, nullable=False, default=0)
-    number_bathrooms = Column(Integer, nullable=False, default=0)
-    max_guest = Column(Integer, nullable=False, default=0)
-    price_by_night = Column(Integer, nullable=False, default=0)
-    latitude = Column(Float)
-    longitude = Column(Float)
-    amenity_ids = []
-    if getenv("HBNB_TYPE_STORAGE") == "db":
-        reviews = relationship("Review", cascade='all, delete, delete-orphan',
-                               backref="place")
-        amenities = relationship("Amenity", secondary=place_amenity,
-                                 viewonly=False,
-                                 back_populates="place_amenities")
-    else:
-        @property
-        def reviews(self):
-            """ The Comment I have to write """
-            var = models.storage.all()
-            lista = []
-            result = []
-            for key in var:
-                review = key.replace('.', ' ')
-                review = shlex.split(review)
-                if (review[0] == 'Review'):
-                    lista.append(var[key])
-            for elem in lista:
-                if (elem.place_id == self.id):
-                    result.append(elem)
-            return (result)
-        @property
-        def amenities(self):
-            """ The Comment I have to write """
-            return self.amenity_ids
-        @amenities.setter
-        def amenities(self, obj=None):
-            """ The Comment I have to write """
-            if type(obj) is Amenity and obj.id not in self.amenity_ids:
-                self.amenity_ids.append(obj.id)
+
+class test_Place(test_basemodel):
+    """ """
+
+    def __init__(self, *args, **kwargs):
+        """ """
+        super().__init__(*args, **kwargs)
+        self.name = "Place"
+        self.value = Place
+
+    def test_city_id(self):
+        """ """
+        new = self.value()
+        self.assertEqual(type(new.city_id), str)
+
+    def test_user_id(self):
+        """ """
+        new = self.value()
+        self.assertEqual(type(new.user_id), str)
+
+    def test_name(self):
+        """ """
+        new = self.value()
+        self.assertEqual(type(new.name), str)
+
+    def test_description(self):
+        """ """
+        new = self.value()
+        self.assertEqual(type(new.description), str)
+
+    def test_number_rooms(self):
+        """ """
+        new = self.value()
+        self.assertEqual(type(new.number_rooms), int)
+
+    def test_number_bathrooms(self):
+        """ """
+        new = self.value()
+        self.assertEqual(type(new.number_bathrooms), int)
+
+    def test_max_guest(self):
+        """ """
+        new = self.value()
+        self.assertEqual(type(new.max_guest), int)
+
+    def test_price_by_night(self):
+        """ """
+        new = self.value()
+        self.assertEqual(type(new.price_by_night), int)
+
+    def test_latitude(self):
+        """ """
+        new = self.value()
+        self.assertEqual(type(new.latitude), float)
+
+    def test_longitude(self):
+        """ """
+        new = self.value()
+        self.assertEqual(type(new.latitude), float)
+
+    def test_amenity_ids(self):
+        """ """
+        new = self.value()
+        self.assertEqual(type(new.amenity_ids), list)

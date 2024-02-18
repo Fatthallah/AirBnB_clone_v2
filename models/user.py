@@ -1,24 +1,34 @@
 #!/usr/bin/python3
-"""The Comment I have to write"""
-from sqlalchemy.ext.declarative import declarative_base
-from models.base_model import BaseModel, Base
-from sqlalchemy import Column, Integer, String
-from sqlalchemy.orm import relationship
-from models.place import Place
-from models.review import Review
+""" """
+from tests.test_models.test_base_model import test_basemodel
+from models.user import User
 
-class User(BaseModel, Base):
-    """The Comment I have to write
-    The Comment:
-        The Comment I have to write
-        The Comment I have to write
-    """
-    __tablename__ = "users"
-    email = Column(String(128), nullable=False)
-    password = Column(String(128), nullable=False)
-    first_name = Column(String(128))
-    last_name = Column(String(128))
-    places = relationship("Place", cascade='all, delete, delete-orphan',
-                          backref="user")
-    reviews = relationship("Review", cascade='all, delete, delete-orphan',
-                           backref="user")
+class test_User(test_basemodel):
+    """ """
+
+
+    def __init__(self, *args, **kwargs):
+        """ """
+        super().__init__(*args, **kwargs)
+        self.name = "User"
+        self.value = User
+
+    def test_first_name(self):
+        """ """
+        new = self.value()
+        self.assertEqual(type(new.first_name), str)
+   
+    def test_last_name(self):
+        """ """
+        new = self.value()
+        self.assertEqual(type(new.last_name), str)
+
+    def test_email(self):
+        """ """
+        new = self.value()
+        self.assertEqual(type(new.email), str)
+
+    def test_password(self):
+        """ """
+        new = self.value()
+        self.assertEqual(type(new.password), str)

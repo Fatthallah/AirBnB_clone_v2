@@ -1,6 +1,10 @@
 #!/usr/bin/python3
 """
-the comment
+do_pack(): Generates a .tgz archive from the
+contents of the web_static folder
+do_deploy(): Distributes an archive to a web server
+deploy (): Creates and distributes an archive to a web server
+do_clean(): Deletes out-of-date archives
 """
 
 from fabric.operations import local, run, put, sudo
@@ -14,7 +18,7 @@ env.hosts = ['34.204.60.80', '54.160.72.183']
 
 
 def do_pack():
-    """the comment"""
+    """Function to compress files in an archive"""
     local("mkdir -p versions")
     filename = "versions/web_static_{}.tgz".format(datetime.strftime(
                                                    datetime.now(),
@@ -27,7 +31,7 @@ def do_pack():
 
 
 def do_deploy(archive_path):
-    """the comment"""
+    """Function to distribute an archive to a server"""
     if not os.path.exists(archive_path):
         return False
     rex = r'^versions/(S+).tgz'
@@ -67,7 +71,7 @@ def do_deploy(archive_path):
 
 
 def deploy():
-    """the comment"""
+    """Creates and distributes an archive to a web server"""
     filepath = do_pack()
     if filepath is None:
         return False
@@ -76,7 +80,7 @@ def deploy():
 
 
 def do_clean(number=0):
-    """the comment"""
+    """Deletes out-of-date archives"""
     files = local("ls -1t versions", capture=True)
     file_names = files.split(" ")
     n = int(number)
